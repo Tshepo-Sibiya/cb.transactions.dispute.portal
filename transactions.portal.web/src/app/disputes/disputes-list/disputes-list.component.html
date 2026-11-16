@@ -1,0 +1,145 @@
+<div class="page-container">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Dispute History</h1>
+      <p class="page-description">
+        Track and inspect the status and progress timeline of filed dispute cases.
+      </p>
+    </div>
+  </header>
+
+  <section class="filters-card">
+    <div class="filters-grid">
+      <div class="filter-item">
+        <label for="status" class="filter-label">Status</label>
+        <select
+          id="status"
+          class="filter-select"
+          [(ngModel)]="status"
+          (change)="loadDisputes()">
+          <option value="">All Statuses</option>
+          <option value="Open">Open</option>
+          <option value="UnderReview">Under Review</option>
+          <option value="Resolved">Resolved</option>
+          <option value="Rejected">Rejected</option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label for="fromDate" class="filter-label">From Date</label>
+        <input
+          id="fromDate"
+          type="date"
+          class="filter-input"
+          [(ngModel)]="fromDate"
+          (change)="loadDisputes()" />
+      </div>
+
+      <div class="filter-item">
+        <label for="toDate" class="filter-label">To Date</label>
+        <input
+          id="toDate"
+          type="date"
+          class="filter-input"
+          [(ngModel)]="toDate"
+          (change)="loadDisputes()" />
+      </div>
+
+      <div class="filter-actions">
+        <button type="button" class="btn btn-secondary" (click)="resetFilters()">
+          Reset
+        </button>
+        <button type="button" class="btn btn-primary" (click)="loadDisputes()">
+          Filter
+        </button>
+      </div>
+    </div>
+  </section>
+
+  @if (loading()) {
+    <div class="state-text">Loading dispute history...</div>
+  } @else if (disputes().length > 0) {
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Status</th>
+            <th>Transaction Reference</th>
+            <th>Merchant</th>
+            <th class="text-right">Amount</th>
+            <th>Date Opened</th>
+            <th>Date Resolved</th>
+            <th class="text-right">Timeline</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of disputes(); track item.id) {
+            <tr
+              class="clickable-row"
+              [class.row-selected]="selectedDisputeId() === item.id"
+              (click)="toggleDispute(item.id)">
+              <td>
+                <app-status-badge [status]="item.status" />
+              </td>
+              <td>{{ item.transactionReference }}</td>
+              <td>{{ item.merchant }}</td>
+              <td class="text-right">
+                {{ item.amount | currency:'ZAR':'symbol-narrow':'1.2-2' }}
+              </td>
+              <td>{{ item.createdAt | date:'yyyy-MM-dd HH:mm' }}</td>
+              <td>
+                {{ item.resolvedAt ? (item.resolvedAt | date:'yyyy-MM-dd HH:mm') : '&mdash;' }}
+              </td>
+              <td class="text-right text-action">
+                {{ selectedDisputeId() === item.id ? 'Hide &uarr;' : 'View &rarr;' }}
+              </td>
+            </tr>
+
+            @if (selectedDisputeId() === item.id) {
+              <tr class="details-row">
+                <td colspan="7">
+                  <div class="timeline-container">
+                    @if (loadingDetail()) {
+                      <div class="timeline-loading">Loading status timeline...</div>
+                    } @else if (selectedDispute(); as d) {
+                      <div class="timeline-header">
+                        <div>
+                          <h3 class="timeline-title">Dispute Timeline: {{ d.reason }}</h3>
+                          <p class="timeline-desc">{{ d.description }}</p>
+                        </div>
+                        <a [routerLink]="['/transactions', d.transactionId]" class="btn btn-link">
+                          View Original Transaction &rarr;
+                        </a>
+                      </div>
+
+                      <div class="timeline-steps">
+                        @for (step of d.statusHistory; track step.id; let last = $last) {
+                          <div class="timeline-step">
+                            <div class="step-marker" [class.step-last]="last"></div>
+                            <div class="step-content">
+                              <div class="step-header">
+                                <app-status-badge [status]="step.status" />
+                                <span class="step-time">
+                                  {{ step.changedAt | date:'yyyy-MM-dd HH:mm:ss' }}
+                                </span>
+                              </div>
+                              @if (step.note) {
+                                <div class="step-note">{{ step.note }}</div>
+                              }
+                            </div>
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
+                </td>
+              </tr>
+            }
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <div class="state-text">No disputes found matching your criteria.</div>
+  }
+</div>

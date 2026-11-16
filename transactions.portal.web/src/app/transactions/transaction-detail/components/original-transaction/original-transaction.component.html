@@ -1,0 +1,25 @@
+<section class="detail-section">
+  <h2 class="section-title">Original Transaction</h2>
+  <div class="grid-table">
+    <div class="row">
+      <span class="label">Reference</span>
+      <span class="value monospace">{{ reference }}</span>
+    </div>
+    <div class="row">
+      <span class="label">Merchant</span>
+      <span class="value">{{ merchant }}</span>
+    </div>
+    <div class="row">
+      <span class="label">Date</span>
+      <span class="value">{{ date | date:'yyyy-MM-dd HH:mm' }}</span>
+    </div>
+    <div class="row">
+      <span class="label">Amount</span>
+      <span class="value amount">{{ amount | currency:'ZAR':'symbol-narrow':'1.2-2' }}</span>
+    </div>
+    <div class="row">
+      <span class="label">Payment Method</span>
+      <span class="value">{{ paymentBrand }} &bull;&bull;&bull;&bull; {{ cardLast4 }}</span>
+    </div>
+  </div>
+</section>

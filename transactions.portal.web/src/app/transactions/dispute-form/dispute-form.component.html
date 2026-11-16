@@ -1,0 +1,104 @@
+<div class="form-page-container">
+  <div class="top-nav">
+    <a [routerLink]="transaction() ? ['/transactions', transaction()!.id] : '/transactions'" class="back-link">
+      &larr; Back to Details
+    </a>
+  </div>
+
+  <header class="form-header">
+    <h1 class="page-title">Submit Transaction Dispute</h1>
+    <p class="page-description">
+      Review the transaction details below and provide the reason and detailed description for your dispute claim.
+    </p>
+  </header>
+
+  @if (loading()) {
+    <div class="state-text">Loading transaction summary...</div>
+  } @else if (transaction(); as t) {
+    <div class="summary-card">
+      <h2 class="card-title">Transaction Summary</h2>
+      <div class="summary-grid">
+        <div class="summary-item">
+          <span class="label">Reference</span>
+          <span class="value monospace">{{ t.reference }}</span>
+        </div>
+        <div class="summary-item">
+          <span class="label">Merchant</span>
+          <span class="value">{{ t.merchant }}</span>
+        </div>
+        <div class="summary-item">
+          <span class="label">Date</span>
+          <span class="value">{{ t.date | date:'yyyy-MM-dd HH:mm' }}</span>
+        </div>
+        <div class="summary-item">
+          <span class="label">Amount</span>
+          <span class="value amount">{{ t.amount | currency:'ZAR':'symbol-narrow':'1.2-2' }}</span>
+        </div>
+        <div class="summary-item">
+          <span class="label">Payment Method</span>
+          <span class="value">{{ t.paymentBrand }} &bull;&bull;&bull;&bull; {{ t.cardLast4 }}</span>
+        </div>
+      </div>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="dispute-form">
+      <div class="form-group">
+        <label for="reason" class="form-label">Dispute Reason</label>
+        <select
+          id="reason"
+          formControlName="reason"
+          class="form-select"
+          [class.input-invalid]="isFieldInvalid('reason')">
+          <option value="">Select a reason</option>
+          @for (r of reasons; track r) {
+            <option [value]="r">{{ r }}</option>
+          }
+        </select>
+        @if (isFieldInvalid('reason')) {
+          <div class="error-msg">Please select a valid dispute reason.</div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="description" class="form-label">
+          Detailed Description
+          <span class="char-counter">({{ charCount }}/500)</span>
+        </label>
+        <textarea
+          id="description"
+          formControlName="description"
+          rows="5"
+          class="form-textarea"
+          placeholder="Provide a factual description of what occurred (minimum 10 characters)..."
+          [class.input-invalid]="isFieldInvalid('description')"></textarea>
+        @if (isFieldInvalid('description')) {
+          @if (form.get('description')?.errors?.['required']) {
+            <div class="error-msg">Description is required.</div>
+          } @else if (form.get('description')?.errors?.['minlength']) {
+            <div class="error-msg">Description must be at least 10 characters.</div>
+          } @else if (form.get('description')?.errors?.['maxlength']) {
+            <div class="error-msg">Description cannot exceed 500 characters.</div>
+          }
+        }
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          [routerLink]="['/transactions', t.id]">
+          Cancel
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="form.invalid || submitting()">
+          {{ submitting() ? 'Submitting Dispute...' : 'Submit Dispute' }}
+        </button>
+      </div>
+    </form>
+  } @else {
+    <div class="state-text">Transaction not found.</div>
+  }
+</div>
+

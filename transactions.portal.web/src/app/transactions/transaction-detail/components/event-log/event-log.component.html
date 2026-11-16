@@ -1,0 +1,15 @@
+<section class="detail-section">
+  <h2 class="section-title">Event Log</h2>
+  <div class="log-block">
+    @if (events && events.length > 0) {
+      @for (evt of events; track evt.id) {
+        <div class="log-entry">
+          <span class="log-time">[{{ evt.timestamp | date:'yyyy-MM-dd HH:mm:ss' }}]</span>
+          <span class="log-msg">{{ evt.message }}</span>
+        </div>
+      }
+    } @else {
+      <div class="log-empty">No logged events for this transaction.</div>
+    }
+  </div>
+</section>

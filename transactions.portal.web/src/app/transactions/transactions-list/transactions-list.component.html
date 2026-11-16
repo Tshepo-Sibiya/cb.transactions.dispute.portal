@@ -1,0 +1,143 @@
+<div class="page-container">
+  <header class="page-header">
+    <div>
+      <h1 class="page-title">Transactions</h1>
+      <p class="page-description">View recent account transactions and submit dispute claims.</p>
+    </div>
+  </header>
+
+  <section class="filters-card">
+    <div class="filters-grid">
+      <div class="filter-item search-item">
+        <label for="search" class="filter-label">Search</label>
+        <input
+          id="search"
+          type="text"
+          class="filter-input"
+          placeholder="Search description or TXN reference..."
+          [(ngModel)]="search"
+          (keyup.enter)="applyFilters()" />
+      </div>
+
+      <div class="filter-item">
+        <label for="status" class="filter-label">Status</label>
+        <select
+          id="status"
+          class="filter-select"
+          [(ngModel)]="status"
+          (change)="applyFilters()">
+          <option value="">All Statuses</option>
+          <option value="Completed">Completed</option>
+          <option value="Disputed">Disputed</option>
+          <option value="Refunded">Refunded</option>
+        </select>
+      </div>
+
+      <div class="filter-item">
+        <label for="fromDate" class="filter-label">From Date</label>
+        <input
+          id="fromDate"
+          type="date"
+          class="filter-input"
+          [(ngModel)]="fromDate"
+          (change)="applyFilters()" />
+      </div>
+
+      <div class="filter-item">
+        <label for="toDate" class="filter-label">To Date</label>
+        <input
+          id="toDate"
+          type="date"
+          class="filter-input"
+          [(ngModel)]="toDate"
+          (change)="applyFilters()" />
+      </div>
+
+      <div class="filter-actions">
+        <button type="button" class="btn btn-secondary" (click)="resetFilters()">
+          Reset
+        </button>
+        <button type="button" class="btn btn-primary" (click)="applyFilters()">
+          Filter
+        </button>
+      </div>
+    </div>
+  </section>
+
+  @if (loading()) {
+    <div class="state-text">Loading transactions...</div>
+  } @else if (data() && data()!.items.length > 0) {
+    <div class="table-container">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Description</th>
+            <th class="text-right">Amount</th>
+            <th>Status</th>
+            <th class="text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of data()!.items; track item.id) {
+            <tr class="clickable-row" (click)="viewDetails(item.id)">
+              <td>{{ item.date | date:'yyyy-MM-dd HH:mm' }}</td>
+              <td>{{ item.merchant }}</td>
+              <td class="text-right">{{ item.amount | currency:'ZAR':'symbol-narrow':'1.2-2' }}</td>
+              <td>
+                <app-status-badge [status]="item.status" />
+              </td>
+              <td class="text-right" (click)="$event.stopPropagation()">
+                @if (item.isEligibleForDispute) {
+                  <button
+                    type="button"
+                    class="btn-table btn-dispute"
+                    (click)="startDispute(item.id)">
+                    Dispute
+                  </button>
+                } @else {
+                  <button
+                    type="button"
+                    class="btn-table btn-dispute-disabled"
+                    [disabled]="true"
+                    [title]="item.ineligibleReason || 'Cannot be disputed'">
+                    Dispute
+                  </button>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pagination-bar">
+      <div class="pagination-info">
+        Showing {{ ((data()!.page - 1) * data()!.pageSize) + 1 }} to {{ Math.min(data()!.page * data()!.pageSize, data()!.totalCount) }} of {{ data()!.totalCount }} transactions
+      </div>
+
+      <div class="pagination-controls">
+        <button
+          type="button"
+          class="btn-page"
+          [disabled]="data()!.page <= 1"
+          (click)="changePage(data()!.page - 1)">
+          Previous
+        </button>
+        <span class="page-indicator">
+          Page {{ data()!.page }} of {{ data()!.totalPages || 1 }}
+        </span>
+        <button
+          type="button"
+          class="btn-page"
+          [disabled]="data()!.page >= data()!.totalPages"
+          (click)="changePage(data()!.page + 1)">
+          Next
+        </button>
+      </div>
+    </div>
+  } @else {
+    <div class="state-text">No transactions found matching your criteria.</div>
+  }
+</div>
+

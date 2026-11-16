@@ -1,0 +1,67 @@
+<div class="page-container">
+  <div class="top-nav">
+    <a routerLink="/transactions" class="back-link">&larr; Back to Transactions</a>
+  </div>
+
+  @if (loading()) {
+    <div class="state-text">Loading transaction details...</div>
+  } @else if (error()) {
+    <div class="state-text">{{ error() }}</div>
+  } @else if (transaction(); as t) {
+    <header class="page-header">
+      <div>
+        <h1 class="page-title">{{ t.merchant }}</h1>
+        <div class="page-subtitle monospace">{{ t.reference }}</div>
+      </div>
+      <div class="action-slot">
+        @if (t.isEligibleForDispute) {
+          <a [routerLink]="['/transactions', t.id, 'dispute']" class="btn btn-primary">
+            Dispute Transaction
+          </a>
+        } @else if (t.disputeSummary) {
+          <a routerLink="/disputes" class="badge-link">
+            <span class="badge-tag">Dispute in progress &rarr;</span>
+          </a>
+        } @else {
+          <button
+            type="button"
+            class="btn btn-disabled"
+            [disabled]="true"
+            [title]="t.ineligibleReason || 'This transaction cannot be disputed'">
+            Dispute
+          </button>
+        }
+      </div>
+    </header>
+
+    <app-transaction-status-banner [status]="t.status" />
+
+    <div class="content-grid">
+      <div class="column-main">
+        <app-original-transaction
+          [reference]="t.reference"
+          [merchant]="t.merchant"
+          [date]="t.date"
+          [amount]="t.amount"
+          [paymentBrand]="t.paymentBrand"
+          [cardLast4]="t.cardLast4" />
+
+        @if (t.refund) {
+          <app-refund-details [refund]="t.refund" />
+        }
+
+        @if (t.merchantStatement) {
+          <app-merchant-statement
+            [statement]="t.merchantStatement"
+            [paymentBrand]="t.paymentBrand"
+            [cardLast4]="t.cardLast4" />
+        }
+      </div>
+
+      <div class="column-side">
+        <app-event-log [events]="t.events" />
+      </div>
+    </div>
+  }
+</div>
+

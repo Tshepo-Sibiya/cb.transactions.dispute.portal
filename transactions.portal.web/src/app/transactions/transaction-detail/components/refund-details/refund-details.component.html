@@ -1,0 +1,23 @@
+@if (refund) {
+  <section class="detail-section">
+    <h2 class="section-title">Refund Details</h2>
+    <div class="grid-table">
+      <div class="row">
+        <span class="label">Refund Reference</span>
+        <span class="value monospace">{{ refund.reference }}</span>
+      </div>
+      <div class="row">
+        <span class="label">Date Processed</span>
+        <span class="value">{{ refund.processedAt | date:'yyyy-MM-dd HH:mm' }}</span>
+      </div>
+      <div class="row">
+        <span class="label">Refund Percentage</span>
+        <span class="value">{{ refund.percentage }}%</span>
+      </div>
+      <div class="row">
+        <span class="label">Refund Amount</span>
+        <span class="value amount-positive">+{{ refund.amount | currency:'ZAR':'symbol-narrow':'1.2-2' }}</span>
+      </div>
+    </div>
+  </section>
+}

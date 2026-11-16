@@ -1,0 +1,29 @@
+@if (statement) {
+  <section class="detail-section">
+    <h2 class="section-title">Merchant Account Statement</h2>
+    <div class="grid-table">
+      <div class="row">
+        <span class="label">Statement Reference</span>
+        <span class="value monospace">{{ statement.reference }}</span>
+      </div>
+      <div class="row">
+        <span class="label">Posting Date</span>
+        <span class="value">{{ statement.postingDate | date:'yyyy-MM-dd HH:mm' }}</span>
+      </div>
+      <div class="row">
+        <span class="label">Entry Type</span>
+        <span class="value">{{ statement.type }}</span>
+      </div>
+      <div class="row">
+        <span class="label">Card</span>
+        <span class="value">{{ paymentBrand }} &bull;&bull;&bull;&bull; {{ cardLast4 }}</span>
+      </div>
+      <div class="row">
+        <span class="label">Statement Amount</span>
+        <span class="value amount" [ngClass]="statement.type === 'Credit' ? 'credit' : 'debit'">
+          {{ statement.type === 'Credit' ? '+' : '-' }}{{ statement.amount | currency:'ZAR':'symbol-narrow':'1.2-2' }}
+        </span>
+      </div>
+    </div>
+  </section>
+}

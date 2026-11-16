@@ -1,0 +1,41 @@
+.status-banner {
+  padding: 1rem 1.25rem;
+  border-radius: 4px;
+  margin-bottom: 1.5rem;
+  border-left: 4px solid;
+}
+
+.banner-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.25rem;
+}
+
+.banner-subtitle {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.banner-completed {
+  background-color: #f0fdf4;
+  border-left-color: #16a34a;
+  color: #166534;
+}
+
+.banner-disputed {
+  background-color: #fffbeb;
+  border-left-color: #d97706;
+  color: #92400e;
+}
+
+.banner-refunded {
+  background-color: #eff6ff;
+  border-left-color: #2563eb;
+  color: #1e40af;
+}
+
+.banner-default {
+  background-color: #f9fafb;
+  border-left-color: #6b7280;
+  color: #374151;
+}

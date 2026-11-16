@@ -1,0 +1,40 @@
+<div class="app-layout">
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="brand">
+        <a routerLink="/" class="brand-link">
+          <span class="brand-title">Transactions Dispute Portal</span>
+        </a>
+      </div>
+      <nav class="app-nav">
+        <a
+          routerLink="/transactions"
+          routerLinkActive="nav-active"
+          class="nav-link">
+          Transactions
+        </a>
+        <a
+          routerLink="/disputes"
+          routerLinkActive="nav-active"
+          class="nav-link">
+          Dispute History
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <div class="main-inner">
+      <app-error-banner />
+      <router-outlet />
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <div class="footer-inner">
+      <span>Transactions Dispute Portal</span>
+      <span class="footer-divider">&bull;</span>
+      <span>Account Services</span>
+    </div>
+  </footer>
+</div>
