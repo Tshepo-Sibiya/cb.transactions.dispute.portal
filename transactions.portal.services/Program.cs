@@ -28,7 +28,7 @@ builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IDisputeService, DisputeService>();
 
 var sqlConnectionString = builder.Configuration["Database:SqlServer"]
-    ?? "Server=localhost,1433;Database=DisputePortal;User Id=sa;Password=YourStrong@Passw0rd;TrustServerCertificate=True;MultipleActiveResultSets=true;Connect Timeout=30;";
+    ?? "Server=localhost,1433;Database=DisputePortal;User Id=sa;Password=Password0!;TrustServerCertificate=True;MultipleActiveResultSets=true;Connect Timeout=30;";
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(sqlConnectionString));
