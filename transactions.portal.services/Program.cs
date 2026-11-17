@@ -27,8 +27,10 @@ builder.Services.AddValidatorsFromAssemblyContaining<CreateDisputeRequestValidat
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IDisputeService, DisputeService>();
 
-var sqlConnectionString = builder.Configuration["Database:SqlServer"]
-    ?? "Server=localhost,1433;Database=DisputePortal;User Id=sa;Password=Password0!;TrustServerCertificate=True;MultipleActiveResultSets=true;Connect Timeout=30;";
+var sqlConnectionString = builder.Configuration.GetConnectionString("SqlServer")
+    ?? builder.Configuration["Database:SqlServer"]
+    ?? throw new InvalidOperationException(
+        "Database connection string is required. Please configure 'Database:SqlServer' or 'ConnectionStrings:SqlServer' in appsettings or via the 'Database__SqlServer' environment variable.");
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(sqlConnectionString));

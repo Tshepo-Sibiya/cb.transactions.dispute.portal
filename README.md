@@ -93,3 +93,37 @@ Step 3: Start the Frontend/Angular app.
    ng serve or npm start
 4. Open the app in your browser: 
    http://localhost:4200
+
+
+*************************************************************************************************
+Running Tests
+*************************************************************************************************
+
+Backend Unit Tests:
+1. Navigate to tests directory:
+   cd transactions.portal.services/tests
+2. Run:
+   dotnet test
+
+Frontend Unit Tests:
+1. Navigate to web directory:
+   cd transactions.portal.web
+2. Run:
+   npm test
+
+
+*************************************************************************************************
+Running Tests
+*************************************************************************************************
+
+Backend Unit Tests:
+1. Navigate to tests directory:
+   cd transactions.portal.services/tests
+2. Run:
+   dotnet test
+
+Frontend Unit Tests:
+1. Navigate to web directory:
+   cd transactions.portal.web
+2. Run:
+   npm test

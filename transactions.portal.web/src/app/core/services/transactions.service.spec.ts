@@ -31,7 +31,7 @@ describe('TransactionsService', () => {
       items: [
         {
           id: 'txn-1',
-          reference: 'TXN-1000000001',
+          reference: 'REF-1000000001',
           date: '2026-11-05T12:00:00Z',
           amount: 540.00,
           merchant: 'Woolworths',
@@ -69,7 +69,7 @@ describe('TransactionsService', () => {
   it('should fetch transaction details by id', () => {
     const dummyDetail: TransactionDetail = {
       id: 'txn-1',
-      reference: 'TXN-1000000001',
+      reference: 'REF-1000000001',
       date: '2026-11-05T12:00:00Z',
       amount: 540.00,
       merchant: 'Woolworths',
@@ -83,7 +83,7 @@ describe('TransactionsService', () => {
 
     service.getTransactionById('txn-1').subscribe(detail => {
       expect(detail.id).toBe('txn-1');
-      expect(detail.reference).toBe('TXN-1000000001');
+      expect(detail.reference).toBe('REF-1000000001');
     });
 
     const req = httpMock.expectOne('/api/transactions/txn-1');
@@ -100,7 +100,7 @@ describe('TransactionsService', () => {
     const mockResponse = {
       id: 'disp-1',
       transactionId: 'txn-1',
-      transactionReference: 'TXN-1000000001',
+      transactionReference: 'REF-1000000001',
       merchant: 'Woolworths',
       amount: 540.00,
       reason: 'Unauthorized charge',

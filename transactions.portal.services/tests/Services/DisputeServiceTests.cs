@@ -38,7 +38,7 @@ public class DisputeServiceTests
         var transaction = new Transaction
         {
             Id = "txn-1",
-            Reference = "TXN-0000000001",
+            Reference = "REF-0000000001",
             Date = DateTime.UtcNow.AddDays(-10),
             Amount = 150.00m,
             Merchant = "Sample Store",
@@ -67,7 +67,7 @@ public class DisputeServiceTests
         var transaction = new Transaction
         {
             Id = "txn-2",
-            Reference = "TXN-0000000002",
+            Reference = "REF-0000000002",
             Date = DateTime.UtcNow.AddDays(-125),
             Amount = 450.00m,
             Merchant = "Older Store",
@@ -96,7 +96,7 @@ public class DisputeServiceTests
         var transaction = new Transaction
         {
             Id = "txn-3",
-            Reference = "TXN-0000000003",
+            Reference = "REF-0000000003",
             Date = DateTime.UtcNow.AddDays(-15),
             Amount = 250.00m,
             Merchant = "Tech Merchant",
@@ -137,7 +137,7 @@ public class DisputeServiceTests
         var transaction = new Transaction
         {
             Id = "txn-4",
-            Reference = "TXN-0000000004",
+            Reference = "REF-0000000004",
             Date = DateTime.UtcNow.AddDays(-20),
             Amount = 300.00m,
             Merchant = "Retail Outlet",
@@ -178,7 +178,7 @@ public class DisputeServiceTests
         var transaction = new Transaction
         {
             Id = "txn-5",
-            Reference = "TXN-0000000005",
+            Reference = "REF-0000000005",
             Date = DateTime.UtcNow.AddDays(-10),
             Amount = 799.00m,
             Merchant = "Online Bookstore",

@@ -13,7 +13,7 @@ describe('DisputeFormComponent', () => {
 
   const mockTransaction: TransactionDetail = {
     id: 'txn-100',
-    reference: 'TXN-1002003004',
+    reference: 'REF-1002003004',
     date: '2026-11-01T10:00:00Z',
     amount: 850.00,
     merchant: 'Test Merchant SA',
