@@ -7,6 +7,19 @@ public static class SqlSeeder
 {
     public static async Task SeedAsync(AppDbContext context)
     {
+        var existingTxns = await context.Transactions
+            .Where(t => t.Reference.StartsWith("TXN-"))
+            .ToListAsync();
+
+        if (existingTxns.Count > 0)
+        {
+            foreach (var txn in existingTxns)
+            {
+                txn.Reference = "REF-" + txn.Reference.Substring(4);
+            }
+            await context.SaveChangesAsync();
+        }
+
         if (await context.Transactions.AnyAsync())
         {
             return;

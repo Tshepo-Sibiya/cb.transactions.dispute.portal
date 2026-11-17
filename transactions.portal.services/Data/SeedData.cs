@@ -171,6 +171,29 @@ public static class SeedData
                     new() { Timestamp = now.AddDays(-9).AddHours(-2), Message = "Transaction settlement completed" }
                 }
             },
+            new()
+            {
+                Reference = "REF-2193847501",
+                Date = now.AddDays(-11).AddHours(-7),
+                Amount = 850.00m,
+                Merchant = "Shell V&A Waterfront",
+                Status = "Completed",
+                PaymentBrand = "Mastercard",
+                CardLast4 = "9012",
+                CustomerId = customerId,
+                MerchantEntry = new()
+                {
+                    Reference = "RFDB-739102",
+                    Type = "Debit",
+                    PostingDate = now.AddDays(-11).AddHours(-5),
+                    Amount = 850.00m
+                },
+                Events = new()
+                {
+                    new() { Timestamp = now.AddDays(-11).AddHours(-7), Message = "Payment authorized at Shell V&A Waterfront" },
+                    new() { Timestamp = now.AddDays(-11).AddHours(-5), Message = "Transaction settlement completed" }
+                }
+            },
            
         };
     }
