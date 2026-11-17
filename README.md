@@ -21,19 +21,24 @@ Database: Microsoft SQL Server - database migrations and seed data are applied a
 Running the project option.
 *************************************************************************************************
 
-Option 1: Running with Docker.
+Option 1: Running with Docker(I recommend this option)
 
 Run with Docker Compose - Run the entire stack (SQL Server, Backend API, and Frontend Web) with just a single command.
 
-Prerequisites: Docker Desktop must be running.
+Pre-requisites: Docker Desktop must be running.
 
-Start everything in one command (instant environment!)
-docker compose up --build -d
+Step 1 (This is Optional): Copy the environment configuration:
+run cmd => cp .env.example .env
 
-Once all running, access the services:
 
-Frontend Portal: http://localhost:4200
-Backend: API/Swagger UI: http://localhost:8080/swagger
+Step 2: Start the entire stack:
+run cmd => docker compose up --build -d
+
+
+Once running, access the services:
+
+- Frontend Portal: http://localhost:4200
+- Backend API / Swagger UI: http://localhost:8080/swagger
 
 
 
